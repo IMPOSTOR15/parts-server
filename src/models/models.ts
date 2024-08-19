@@ -60,6 +60,15 @@ interface PartsInStockAttributes {
     part_number: string;
     brand: string;
     quantity: number;
+    sell_quantity: string;
+    supplier_id: number;
+    supplier_code: string;
+    seller_code: string;
+    part_price: number;
+    status: string;
+    lenght: string;
+    height: string;
+    width: string;
 }
 
 interface PartsInStockCreationAttributes extends Optional<PartsInStockAttributes, 'id'> {}
@@ -70,6 +79,15 @@ class PartsInStock extends Model<PartsInStockAttributes, PartsInStockCreationAtt
     public part_number!: string;
     public brand!: string;
     public quantity!: number;
+    public sell_quantity!: string;
+    public supplier_id!: number;
+    public supplier_code!: string;
+    public seller_code!: string;
+    public part_price!: number;
+    public status!: string
+    public lenght!: string;
+    public height!: string;
+    public width!: string;
 }
 
 PartsInStock.init(
@@ -90,6 +108,60 @@ PartsInStock.init(
         },
         quantity: {
             type: DataTypes.BIGINT,
+        },
+        sell_quantity: {
+            type: DataTypes.TEXT,
+        },
+        supplier_id: {
+            type: DataTypes.BIGINT,
+        },
+        supplier_code: {
+            type: DataTypes.TEXT,
+        },
+        seller_code: {
+            type: DataTypes.TEXT,
+        },
+        part_price: {
+            type: DataTypes.TEXT,
+        },
+        status: {
+            type: DataTypes.TEXT,
+        },
+        lenght: {
+            type: DataTypes.TEXT,
+        },
+        height: {
+            type: DataTypes.TEXT,
+        },
+        width: {
+            type: DataTypes.TEXT,
+        }
+    },
+    {
+        sequelize,
+        tableName: 'parts_in_stock',
+        timestamps: false,
+    }
+);
+
+
+interface CurrentSaleTasksAttributes {
+    id: number;
+}
+
+interface CurrentSaleTasksCreationAttributes extends Optional<CurrentSaleTasksAttributes, 'id'> {}
+
+class CurrentSaleTasks extends Model<CurrentSaleTasksAttributes, CurrentSaleTasksCreationAttributes> implements CurrentSaleTasksAttributes {
+    public id!: number;
+
+}
+
+CurrentSaleTasks.init(
+    {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true,
         },
     },
     {

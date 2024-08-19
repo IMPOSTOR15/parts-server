@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
       "target": "ESNext",
-      "module": "CommonJS",
+      "module": "NodeNext",
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "NodeNext",
       "typeRoots": ["node_modules/@types"],
       "outDir": "./dist",
       "rootDir": "./src"
@@ -13,4 +14,3 @@
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
 }
-  

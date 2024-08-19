@@ -29,6 +29,7 @@
     "express-fileupload": "^1.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^9.0.0",
+    "node-fetch": "^3.3.2",
     "path-browserify": "^1.0.1",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",

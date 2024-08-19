@@ -1,11 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
-import sequelize from './src/db';
-// import models from './src/models/models';
+import sequelize from './db';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
-import router from './src/routes';
-import errorHandler from './src/middleware/ErrorHandlingMiddleware';
+import router from './routes';
+import errorHandler from './middleware/ErrorHandlingMiddleware';
 import path from 'path';
 
 const PORT = process.env.PORT || 5000;
