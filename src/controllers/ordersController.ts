@@ -1,29 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
-import { User } from '../models/models';
 import ApiError from '../error/ApiError';
 import { getOrdersInfo, getOrdersOnAssembly, getOrdersStatuses } from '../utils/fetchOrdersOnAssembly';
 import { OrderInfoResponse } from '../types'
 import { getOrdersStickers, StickerResponse } from '../utils/fecthSticker';
 
 class OrdersController {
-    async registration(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { login, password, role } = req.body;
-            if (!login || !password) {
-                return next(ApiError.badRequest('Не задан пароль или логин'));
-            }
-            const candidate = await User.findOne({ where: { login } });
-            if (candidate) {
-                return next(ApiError.badRequest('Пользователь уже существует'));
-            }
-            const hashPassword = await bcrypt.hash(password, 5);
-            const user = await User.create({ login, role, password: hashPassword });
-        } catch (e) {
-            next(ApiError.badRequest((e as Error).message));
-        }
-    }
-
     async getOrdersOnAssemblyBySeller(req: Request, res: Response, next: NextFunction) {
         try {
             const { seller_code } = req.body;
