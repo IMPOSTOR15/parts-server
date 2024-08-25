@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
-import { User } from '../models/models';
 import ApiError from '../error/ApiError';
 import { getSubclientOrderDetails } from '../utils/frozaFetch';
 
@@ -25,7 +23,7 @@ class FrozaController {
             res.json(orderDetails);
 
         } catch (error) {
-            res.status(500).send(`Ошибка при получении данных о заказах: ${error}`);
+            next(ApiError.internal(`Ошибка при получении информации о выданных заказах: ${(error as Error).message}`));
         }
     }
 
