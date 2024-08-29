@@ -14,13 +14,19 @@ interface OrderParams {
     type_search?: number;
     date_st?: number;
 }
+const WSDL_URL = `${settings.frozaApi}/orders.php?WSDL`;
 
 export async function getSubclientOrderDetails(user_login: string, user_password: string): Promise<OrderInfoResponse[]> {
     try {
-        const client = await soap.createClientAsync(`${settings.frozaApi}/orders.php?WSDL`);
+        const client = await new Promise<soap.Client>((resolve, reject) => {
+            soap.createClient(WSDL_URL, (err, client) => {
+                if (err) reject(err);
+                resolve(client);
+            });
+        });
+
         const today = moment().format('DD.MM.YYYY');
-        console.log('client', client);
-        
+
         const params: OrderParams = {
             login: user_login,
             password: user_password,
@@ -29,15 +35,24 @@ export async function getSubclientOrderDetails(user_login: string, user_password
             status: 7,
         };
 
-        const [result] = await client.getSubclientOrderDetailsAsync(params);
+        const result = await new Promise<any>((resolve, reject) => {
+            client.getClientOrderDetails(params, (err: any, result: any) => {
+                if (err) {
+                    console.error('Ошибка от SOAP:', err);
+                    return reject(err);
+                }
+                resolve(result);
+            });
+        });
 
-        if (result.getSubclientOrderDetailsResult && result.getSubclientOrderDetailsResult.SubclientOrderDetails) {
-            const orderDetails: OrderInfoResponse[] = result.getSubclientOrderDetailsResult.SubclientOrderDetails;
+        if (result?.getClientOrderDetailsResult?.ClientOrderDetails) {
+            const orderDetails: OrderInfoResponse[] = result.getClientOrderDetailsResult.ClientOrderDetails;
             return orderDetails;
         } else {
             console.warn('Заказов не найдено.');
             return [];
         }
+
     } catch (error) {
         console.error('Ошибка при получении данных о заказах:', error);
         throw error;
